@@ -57,6 +57,20 @@ const facts = [
             <Pending label={d.pending} />
           )
         }
+        {
+          p.extra_links.map((x) => (
+            <div class="link extra" data-extra-link>
+              <span class="url">{x.url}</span>
+              <a class="btn primary" href={x.url} target="_blank" rel="noopener noreferrer">
+                {x.label[locale]}
+              </a>
+              <button class="btn ghost" type="button" data-copy={x.url}>
+                {d.copy}
+              </button>
+              <span class="copy-status" data-copy-status role="status" aria-live="polite" />
+            </div>
+          ))
+        }
       </section>
 
       <section>
@@ -103,7 +117,17 @@ const facts = [
         </div>
         <div class="fact">
           <dt>{d.repo}</dt>
-          <dd>{p.repo}</dd>
+          <dd data-repo>
+            {
+              p.repo_public ? (
+                <a href={`https://github.com/${p.repo}`} target="_blank" rel="noopener noreferrer">
+                  {p.repo}
+                </a>
+              ) : (
+                d.repoPrivate
+              )
+            }
+          </dd>
         </div>
       </dl>
 
@@ -230,6 +254,9 @@ const facts = [
     padding: 12px 14px;
     overflow-wrap: anywhere;
     user-select: all;
+  }
+  .link.extra {
+    margin-top: 12px;
   }
   .copy-status {
     flex-basis: 100%;

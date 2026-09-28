@@ -20,16 +20,24 @@ export const orTodo = <T extends z.ZodType>(schema: T) => z.union([schema, todo]
 
 export const STATUSES = ['live', 'pilot', 'build'] as const;
 export const SIZES = ['lg', 'sm'] as const;
-export const GLYPHS = ['audit', 'qr', 'chart', 'building'] as const;
+export const GLYPHS = ['audit', 'qr', 'chart', 'building', 'hive'] as const;
 export const TINTS = ['orange', 'blue', 'green', 'violet'] as const;
 
 const httpsUrl = z.url({ protocol: /^https$/ });
+
+/** Вторая дверь рядом с основной ссылкой (например, бот рядом с веб-админкой). */
+const extraLink = z.object({ url: httpsUrl, label: localized }).strict();
 
 export const projectSchema = z
   .object({
     order: z.number().int().nonnegative(),
     name: z.string().trim().min(1),
     repo: z.string().regex(/^GarroV\/[\w.-]+$/),
+    /**
+     * Видимость репозитория на GitHub (`gh repo view --json visibility`).
+     * У приватного ссылку не показываем: коллега без доступа получит 404.
+     */
+    repo_public: z.boolean(),
     status: z.enum(STATUSES),
     size: z.enum(SIZES),
     glyph: z.enum(GLYPHS),
@@ -42,6 +50,8 @@ export const projectSchema = z
     audience: orTodo(localized),
     runs_on: orTodo(localized),
     link: orTodo(z.object({ url: httpsUrl, label: localized.optional() }).strict()),
+    /** Дополнительные двери проекта; нет — пустой список. */
+    extra_links: z.array(extraLink),
     login_steps: orTodo(z.array(localized).min(1)),
     demo: orTodo(
       z.union([

@@ -3,7 +3,8 @@
 order: 1
 name: Decimus
 repo: GarroV/decimus
-status: build            # карта хозяйства: «разработка»
+repo_public: true         # gh repo view: PUBLIC (28.09.2026)
+status: build            # решение владельца 28.09.2026: «в разработке»
 size: lg
 glyph: audit
 tint: orange
@@ -26,13 +27,18 @@ link:
   label:
     ru: Открыть админку
     en: Open the admin
+extra_links:
+  - url: https://t.me/dodo_as_bot   # getMe бота на VPS, 28.09.2026
+    label:
+      ru: Открыть бота
+      en: Open the bot
 login_steps:
   - ru: Попросите владельца проекта завести вам учётную запись веб-админки — самостоятельной регистрации нет.
     en: Ask the project owner to create a web admin account for you — there is no self-sign-up.
   - ru: Откройте ссылку и войдите по логину и паролю.
     en: Open the link and sign in with your username and password.
-  - ru: Чтобы проводить проверки, попросите добавить ваш Telegram в список приглашённых бота, затем отправьте боту /start.
-    en: To run audits, ask for your Telegram account to be added to the bot’s invite list, then send /start to the bot.
+  - ru: Чтобы проводить проверки, попросите добавить ваш Telegram в список приглашённых бота, затем откройте бота @dodo_as_bot по второй ссылке и отправьте /start.
+    en: To run audits, ask for your Telegram account to be added to the bot’s invite list, then open the @dodo_as_bot bot from the second link and send /start.
 demo: none               # демо только локальное (docker compose --profile demo)
 sources:
   - GarroV/decimus README.md («Что уже работает», «Где живёт»)
@@ -40,3 +46,5 @@ sources:
   - GarroV/decimus docs/08-deploy.md (§8, прод на VPS)
   - GarroV/decimus docs/12-web-admin.md
   - dotfiles docs/landscape.md
+  - GarroV/decimus progress.md (имя бота @dodo_as_bot) и getMe бота на VPS
+  - "владелец, 28.09.2026: статус — в разработке"

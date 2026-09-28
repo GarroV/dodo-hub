@@ -4,20 +4,20 @@ import { ru } from '../../src/i18n/ru';
 import { en } from '../../src/i18n/en';
 import { serveFixture, serveOutage, type Outage } from './helpers';
 
-const PROJECTS = ['decimus', 'meridius', 'maximus', 'construction-bot'];
+const PROJECTS = ['decimus', 'meridius', 'maximus', 'construction-bot', 'swarm'];
 
 test.describe('с фикстурой плана', () => {
   test.beforeEach(async ({ page }) => {
     await serveFixture(page);
   });
 
-  test('главная рендерит 4 плитки', async ({ page }) => {
+  test(`главная рендерит ${PROJECTS.length} плиток`, async ({ page }) => {
     const problems: string[] = [];
     page.on('pageerror', (e) => problems.push(e.message));
     page.on('console', (m) => m.type() === 'error' && problems.push(m.text()));
     await page.goto('./');
     const tiles = page.locator('a.tile');
-    await expect(tiles).toHaveCount(4);
+    await expect(tiles).toHaveCount(PROJECTS.length);
     for (const slug of PROJECTS) await expect(page.locator(`#tile-${slug}`)).toBeVisible();
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
     await expect(page.locator('[data-roadmap="all"]')).toHaveAttribute('data-state', 'ready');
@@ -48,11 +48,37 @@ test.describe('с фикстурой плана', () => {
     await expect(page.locator('#card-meridius [data-link]')).toHaveText('https://meridius.95-111-249-216.sslip.io');
   });
 
-  test('факт без источника показан как «уточняется»', async ({ page }) => {
+  test('у проекта без доски в Swarm нет плана, «уточняется» не осталось', async ({ page }) => {
     await page.goto('./#construction-bot');
     const card = page.locator('#card-construction-bot');
-    await expect(card.locator('[data-pending]').first()).toHaveText(ru.pending);
     await expect(card).toContainText(ru.planNone);
+    // Все факты найдены: ни одна карточка не говорит «уточняется».
+    await expect(page.locator('[data-pending]')).toHaveCount(0);
+  });
+
+  test('приватный репозиторий без ссылки, публичный — ссылкой на GitHub', async ({ page }) => {
+    await page.goto('./#construction-bot');
+    const priv = page.locator('#card-construction-bot [data-repo]');
+    await expect(priv).toHaveText(ru.repoPrivate);
+    await expect(priv.locator('a')).toHaveCount(0);
+    await expect(page.locator('#card-construction-bot')).not.toContainText('GarroV/construction_bot');
+    await page.keyboard.press('Escape');
+
+    await page.goto('./#swarm');
+    await expect(page.locator('#card-swarm [data-repo] a')).toHaveAttribute('href', 'https://github.com/GarroV/Swarm-brain');
+  });
+
+  test('бот — второй ссылкой рядом с вебом', async ({ page }) => {
+    await page.goto('./#decimus');
+    const extra = page.locator('#card-decimus [data-extra-link]');
+    await expect(extra.getByRole('link', { name: 'Открыть бота' })).toHaveAttribute('href', 'https://t.me/dodo_as_bot');
+    await page.goto('./#swarm');
+    await expect(page.locator('#card-swarm [data-link]')).toHaveText('https://swarm-brain.pages.dev');
+    await expect(page.locator('#card-swarm [data-extra-link] a')).toHaveAttribute('href', 'https://t.me/swarm_brain_bot');
+    await expect(page.locator('#card-swarm').getByRole('link', { name: ru.demoOpen })).toHaveAttribute(
+      'href',
+      /^https:\/\/swarm-brain\.pages\.dev\/api\/auth\/demo\?key=/,
+    );
   });
 
   test('RU/EN переключается', async ({ page }) => {
@@ -90,6 +116,23 @@ test.describe('с фикстурой плана', () => {
     const cardPlan = page.locator('[data-roadmap="decimus"]');
     await expect(cardPlan).toContainText(FIXTURE_TITLES.decimusPlanned);
     await expect(cardPlan).not.toContainText(FIXTURE_TITLES.meridiusInProgress);
+  });
+
+  test('bento без дыр: каждый ряд плиток заполнен до края', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('./');
+    const rows = await page.evaluate(() => {
+      const grid = document.querySelector('a.tile')!.parentElement!.getBoundingClientRect();
+      const byRow = new Map<number, number>();
+      for (const t of document.querySelectorAll('a.tile')) {
+        const r = t.getBoundingClientRect();
+        const top = Math.round(r.top);
+        byRow.set(top, Math.max(byRow.get(top) ?? 0, r.right));
+      }
+      return [...byRow.values()].map((right) => Math.round(grid.right - right));
+    });
+    // Правый край последней плитки каждого ряда совпадает с краем сетки.
+    for (const gap of rows) expect(Math.abs(gap)).toBeLessThanOrEqual(1);
   });
 
   test('нет горизонтального скролла', async ({ page }) => {
@@ -134,7 +177,7 @@ test.describe('эндпоинт плана недоступен', () => {
       const feed = page.locator('[data-roadmap="all"]');
       await expect(feed.locator('[data-plan-status]')).toHaveText(ru.planUnavailable);
       await expect(feed).toHaveAttribute('data-state', 'unavailable');
-      await expect(page.locator('a.tile')).toHaveCount(4);
+      await expect(page.locator('a.tile')).toHaveCount(PROJECTS.length);
 
       await page.locator('#tile-decimus').click();
       await expect(page.locator('[data-roadmap="decimus"] [data-plan-status]')).toHaveText(ru.planUnavailable);

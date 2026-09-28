@@ -2,7 +2,8 @@
 order: 2
 name: Meridius
 repo: GarroV/meridius
-status: build            # карта хозяйства: «разработка»
+repo_public: true         # gh repo view: PUBLIC (28.09.2026)
+status: build            # решение владельца 28.09.2026: «в разработке»
 size: sm
 glyph: qr
 tint: blue
@@ -22,6 +23,7 @@ runs_on:
   en: The browser of a tablet paired to the station; any phone via QR
 link:
   url: https://meridius.95-111-249-216.sslip.io
+extra_links: []
 login_steps:
   - ru: Основной способ — планшет у станции. Управляющий в кабинете нажимает «Привязать планшет» у чек-листа станции и получает четырёхзначный код. На планшете откройте ссылку, перейдите на /pair и введите код. Это делается один раз, дальше вкладка /station держит чек-лист станции открытым.
     en: The main way is a tablet at the station. A manager clicks “Pair tablet” on the station checklist in the admin and gets a four-digit code. On the tablet, open the link, go to /pair and enter the code. You do this once; after that the /station tab keeps the station checklist open.
@@ -35,4 +37,5 @@ sources:
   - GarroV/meridius docs/furca/blocks/auth.md (вход в кабинет)
   - GarroV/meridius deploy/README.md
   - dotfiles docs/landscape.md
+  - "владелец, 28.09.2026: статус — в разработке"
   - "владелец, 28.09.2026: основной способ работы — браузер планшета, привязанный к станции"

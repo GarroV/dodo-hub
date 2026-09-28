@@ -1,0 +1,52 @@
+# Факты — из репозитория GarroV/Swarm-brain (ветка main) и проверки живого веба.
+order: 5
+name: Swarm
+repo: GarroV/Swarm-brain
+repo_public: true         # gh repo view: PUBLIC (28.09.2026)
+status: live             # решение владельца 28.09.2026: «работает»
+size: sm
+glyph: hive
+tint: orange
+swarm_project_id: 166ecbc5-3446-46c4-838a-512299226bd5   # подпроект «Swarm Brain» доски «Vibe Coding»
+owner: Vasiliy Garro
+kind:
+  ru: Telegram-бот · веб · MCP
+  en: Telegram bot · web · MCP
+summary:
+  ru: Командная база знаний с AI. Встречи, задачи и документы в одном месте — и ответы на вопросы обычным языком со ссылками на источники.
+  en: A team knowledge base with AI. Meetings, tasks and documents in one place, with plain-language answers that link to their sources.
+audience:
+  ru: Команды Dodo, которые много созваниваются и работают по нескольким рынкам (сейчас — CEE и Other)
+  en: Dodo teams that spend a lot of time in calls and work across several markets (currently CEE and Other)
+runs_on:
+  ru: Веб, Telegram, Claude Desktop (MCP) и рекордер встреч bumblebee на Mac
+  en: The web, Telegram, Claude Desktop (MCP) and the bumblebee meeting recorder on a Mac
+link:
+  url: https://swarm-brain.pages.dev
+  label:
+    ru: Открыть веб
+    en: Open the web app
+extra_links:
+  - url: https://t.me/swarm_brain_bot   # miniapp/src/app/login/page.tsx, t.me отвечает «Swarm Bot»
+    label:
+      ru: Открыть бота
+      en: Open the bot
+login_steps:
+  - ru: Вход только по приглашению. Попросите администратора Swarm добавить вашу почту @dodobrands.io в список доступа.
+    en: Access is invite-only. Ask a Swarm admin to add your @dodobrands.io email to the access list.
+  - ru: Откройте веб и войдите через «Sign in with Google» корпоративной почтой или через «Sign in with Telegram».
+    en: Open the web app and sign in with “Sign in with Google” using your corporate email, or with “Sign in with Telegram”.
+  - ru: В Telegram откройте бота @swarm_brain_bot и пишите ему вопросы и заметки. Подключить Claude Desktop или рекордер bumblebee — в вебе, раздел «Настройки».
+    en: In Telegram, open the @swarm_brain_bot bot and send it questions and notes. To connect Claude Desktop or the bumblebee recorder, go to Settings in the web app.
+demo:
+  url: https://swarm-brain.pages.dev/api/auth/demo?key=f4a2bc8e3401d76455aa3e9243cecc1583616b61d105cdfd
+  note:
+    ru: Демо-воркспейс без регистрации, на английском, возвращается к эталону
+    en: A demo workspace with no sign-up, in English, reset to a clean state
+sources:
+  - GarroV/Swarm-brain README.md («Живое демо», «Что это и зачем», «Поверхности»)
+  - GarroV/Swarm-brain docs/ARCHITECTURE.md
+  - GarroV/Swarm-brain docs/QUICK_REF.md (веб — swarm-brain.pages.dev; демо-данные scripts/seed-demo.sh)
+  - GarroV/Swarm-brain miniapp/src/app/login/page.tsx (бот @swarm_brain_bot, вход Google и Telegram, только по приглашению)
+  - "28.09.2026: веб отвечает 200, демо-ссылка ставит сессию и ведёт в воркспейс"
+  - "владелец, 28.09.2026: статус — работает"

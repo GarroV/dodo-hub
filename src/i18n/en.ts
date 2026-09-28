@@ -27,6 +27,7 @@ export const en: Dict = {
   demoNone: 'No',
   demoOpen: 'Open demo',
   repo: 'Repository',
+  repoPrivate: 'Private — access via the project owner',
   pending: 'To be confirmed',
   planHeading: 'Roadmap',
   planLead: 'What we’re doing now, what’s next, and what shipped in the last 30 days. Loaded from Swarm when you open the page.',

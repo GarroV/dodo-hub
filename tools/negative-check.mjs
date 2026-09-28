@@ -38,6 +38,13 @@ const MUTATIONS = [
     run: ['npx', 'playwright', 'test', '--project=desktop', '-g', 'contract:'],
   },
   {
+    name: 'карточка показывает ссылку на приватный репозиторий',
+    file: 'src/components/Card.astro',
+    find: /p\.repo_public \?/,
+    replace: 'true ?',
+    run: ['npx', 'playwright', 'test', '--project=desktop', '-g', 'приватный репозиторий'],
+  },
+  {
     name: 'в YAML проекта нет обязательного поля',
     file: 'src/content/projects/meridius.yaml',
     find: /^summary:\n(?:  .*\n)+/m,

@@ -1,9 +1,15 @@
 // Смоук живого сайта на Pages, без подмен: настоящая выдача Swarm.
 //   npm run smoke:live              (по умолчанию https://garrov.github.io/dodo-hub/)
 //   SMOKE_URL=http://… npm run smoke:live
-// Падает, если нет 4 плиток, карточка не открывается, план ни загрузился,
+// Падает, если плиток не столько, сколько проектов в src/content/projects, карточка не открывается, план ни загрузился,
 // ни честно не сказал «недоступен», или в консоли есть ошибки (включая CSP).
+import { readdirSync } from 'node:fs';
 import { chromium } from '@playwright/test';
+
+// Сколько плиток ждать — столько, сколько проектов в данных, а не число в коде.
+const EXPECTED_TILES = readdirSync(new globalThis.URL('../src/content/projects/', import.meta.url)).filter((f) =>
+  f.endsWith('.yaml'),
+).length;
 
 const URL = process.env.SMOKE_URL ?? 'https://garrov.github.io/dodo-hub/';
 const browser = await chromium.launch();
@@ -26,8 +32,8 @@ const fail = async (msg) => {
 try {
   await page.goto(URL, { waitUntil: 'load' });
   const tiles = await page.locator('a.tile').count();
-  if (tiles !== 4) await fail(`плиток ${tiles}, ожидалось 4`);
-  console.log('✓ 4 плитки');
+  if (tiles !== EXPECTED_TILES) await fail(`плиток ${tiles}, ожидалось ${EXPECTED_TILES}`);
+  console.log(`✓ ${EXPECTED_TILES} плиток`);
 
   await page.locator('#tile-decimus').click();
   await page.locator('#card-decimus[open] [data-link]').waitFor({ timeout: 5000 });

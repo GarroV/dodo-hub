@@ -1,8 +1,9 @@
-# Факты — из репозитория GarroV/maximus и карты хозяйства.
+# Факты — из репозитория GarroV/maximus, карты хозяйства и проверки живого демо.
 order: 3
 name: Maximus
 repo: GarroV/maximus
-status: pilot            # карта хозяйства: «живой (пилот, Сербия)»
+repo_public: true         # gh repo view: PUBLIC (28.09.2026)
+status: build            # решение владельца 28.09.2026: «в разработке»
 size: sm
 glyph: chart
 tint: green
@@ -20,16 +21,32 @@ audience:
 runs_on:
   ru: Веб
   en: Web
+# Рабочий продукт в интернет не выведен (D007: персональные данные сотрудников
+# партнёра), поэтому ссылка для коллег — живое демо. Ключ в адресе — задуманный
+# «спидбамп» от случайных прохожих и поисковиков, а не секрет (README maximus,
+# DEMO_KEY: «Секретом не является — в демо-базе только выдуманные люди»).
 link:
-  todo: "Публичного адреса нет: продукт наружу не выведен (решения D007/D038), демо закрыто ключом. Какую ссылку давать коллегам?"
+  url: https://muspelheim.tail48dfee.ts.net:8443/demo/?key=okoP8Bom9imR9H9F
+  label:
+    ru: Открыть демо
+    en: Open the demo
+extra_links: []
 login_steps:
-  - ru: Доступ только по приглашению — его отправляет администратор сети партнёра.
-    en: Access is by invitation only — the partner’s network administrator sends it.
+  - ru: Посмотреть продукт — в демо. Откройте ссылку и нажмите «Enter the demo» или войдите нужной ролью — бухгалтер, управляющий точки, администратор сети. Регистрации нет, демо на английском, все люди и суммы в нём выдуманы, а данные сами возвращаются к исходным.
+    en: To see the product, use the demo. Open the link and click “Enter the demo” or enter as a specific role — accountant, restaurant manager, network administrator. No sign-up; the demo is in English, every person and amount in it is invented, and the data resets on its own.
+  - ru: Рабочий продукт в интернет не выведен — в нём персональные данные сотрудников партнёра. Доступ к нему — только по приглашению, его отправляет администратор сети партнёра.
+    en: The working product is not exposed to the internet — it holds personal data of the partner’s staff. Access is by invitation only, sent by the partner’s network administrator.
 demo:
-  todo: "Демо есть, но вход закрыт ключом (DEMO_KEY). Публиковать ли вход в демо и по какому адресу?"
+  url: https://muspelheim.tail48dfee.ts.net:8443/demo/?key=okoP8Bom9imR9H9F
+  note:
+    ru: Вход одной кнопкой, на английском, данные выдуманные
+    en: One-click entry, in English, invented data
 sources:
-  - GarroV/maximus README.md
+  - GarroV/maximus README.md (переменные DEMO_MODE, DEMO_KEY, DEMO_RESET_MINUTES)
   - GarroV/maximus docs/architecture.md («Кто им пользуется»)
   - GarroV/maximus docs/furca/blocks/roles.md (/roles/invite/)
-  - GarroV/maximus docs/furca/blocks/demo.md
+  - GarroV/maximus docs/furca/blocks/demo.md и src/demo/access.py (вход ссылкой с ключом)
+  - GarroV/maximus progress.md (публичный адрес демо — Funnel :8443 → 8010)
+  - "MUSPELHEIM, 28.09.2026: tailscale funnel status, адрес с ключом отвечает 200 «MAXIMUS — live demo», вход ведёт в /periods/"
   - dotfiles docs/landscape.md
+  - "владелец, 28.09.2026: статус — в разработке; демо было"
