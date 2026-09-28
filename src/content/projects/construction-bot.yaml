@@ -1,0 +1,32 @@
+# Факты — из репозитория GarroV/construction_bot (ветка main) и карты хозяйства.
+# Доски в Swarm нет и не будет: проект уже просто работает, плана у него нет.
+order: 4
+name: Construction bot
+repo: GarroV/construction_bot
+status: live             # карта хозяйства: «живой (партнёры)»
+size: lg
+glyph: building
+tint: violet
+swarm_project_id: null
+owner: Vasiliy Garro
+kind:
+  ru: Telegram-бот
+  en: Telegram bot
+summary:
+  ru: Выжимки по стройкам пиццерий из задач Битрикс24 — несколько раз в день в топик странового чата партнёра.
+  en: Digests on pizzeria construction from Bitrix24 tasks, several times a day, in the topic of the partner’s country chat.
+audience:
+  ru: Владельцы сети и партнёры, у которых идёт стройка
+  en: Network owners and partners with a site under construction
+runs_on:
+  ru: Telegram
+  en: Telegram
+link:
+  todo: "Ссылки на бота (t.me/…) в источниках нет. Какую ссылку давать?"
+login_steps:
+  todo: "Как подключить бота к чату и подписать топик на стройку — шаги для коллег в источниках не описаны."
+demo:
+  todo: "Есть ли демо? В источниках — только внутренний режим DRY_RUN."
+sources:
+  - GarroV/construction_bot README.md («Что это», «Поверхности»)
+  - dotfiles docs/landscape.md

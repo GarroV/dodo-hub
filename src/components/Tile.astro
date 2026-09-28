@@ -1,0 +1,114 @@
+---
+import Glyph from './Glyph.astro';
+import StatusPill from './StatusPill.astro';
+import type { Project } from '../lib/schema';
+import type { Dict } from '../i18n/ru';
+import type { Locale } from '../i18n';
+
+interface Props {
+  slug: string;
+  project: Project;
+  locale: Locale;
+  d: Dict;
+}
+const { slug, project: p, locale, d } = Astro.props;
+---
+
+<a
+  class={`tile ${p.size}`}
+  href={`#${slug}`}
+  id={`tile-${slug}`}
+  data-tint={p.tint}
+  data-project={slug}
+  aria-haspopup="dialog"
+  aria-controls={`card-${slug}`}
+>
+  <Glyph glyph={p.glyph} />
+  <span class="eyebrow">{p.kind[locale]}</span>
+  <h3 class="name">{p.name}</h3>
+  <p class="desc">{p.summary[locale]}</p>
+  <span class="foot"><StatusPill status={p.status} d={d} /><span class="more">{d.details} ›</span></span>
+</a>
+
+<style>
+  .tile {
+    grid-column: span 3;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    background: var(--card);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    min-height: 280px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform var(--duration) var(--ease);
+  }
+  .tile:hover {
+    transform: scale(1.012);
+  }
+  .tile:active {
+    transform: scale(0.992);
+  }
+  .tile:focus-visible {
+    border-radius: var(--radius-xl);
+  }
+  .tile.lg {
+    grid-column: span 4;
+    min-height: 360px;
+  }
+  .tile.sm {
+    grid-column: span 2;
+    min-height: 360px;
+  }
+  .tile::after {
+    content: '';
+    position: absolute;
+    inset: auto -20% -40% auto;
+    width: 70%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--tint);
+    opacity: 0.9;
+    z-index: -1;
+  }
+  .name {
+    font-size: clamp(28px, 3.6vw, 40px);
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+    margin: 0;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .desc {
+    color: var(--ink-2);
+    margin: 0;
+    max-width: 30ch;
+    text-wrap: pretty;
+  }
+  .foot {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .more {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--accent-ink);
+  }
+  @media (max-width: 760px) {
+    .tile,
+    .tile.lg,
+    .tile.sm {
+      grid-column: span 6;
+      min-height: 240px;
+    }
+  }
+</style>

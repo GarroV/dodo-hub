@@ -1,0 +1,12 @@
+---
+import type { Project } from '../lib/schema';
+import type { Dict } from '../i18n/ru';
+
+interface Props {
+  status: Project['status'];
+  d: Dict;
+}
+const { status, d } = Astro.props;
+---
+
+<span class={`pill s-${status}`}><b aria-hidden="true"></b>{d.status[status]}</span>

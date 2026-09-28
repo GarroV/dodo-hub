@@ -1,0 +1,37 @@
+# Факты — из репозитория GarroV/meridius и карты хозяйства.
+order: 2
+name: Meridius
+repo: GarroV/meridius
+status: build            # карта хозяйства: «разработка»
+size: sm
+glyph: qr
+tint: blue
+swarm_project_id: e39c1244-022c-470e-bfe6-6eeb1393d7dc
+owner: Vasiliy Garro
+kind:
+  ru: Веб · QR
+  en: Web · QR
+summary:
+  ru: Цифровые чек-листы станций. Стандарт заводится в вебе и попадает на кухню через QR-наклейку.
+  en: Digital station checklists. The standard is set up on the web and reaches the kitchen through a QR sticker.
+audience:
+  ru: Методисты и управляющие — в кабинете; сотрудники кухни — по QR
+  en: Methodologists and managers in the admin; kitchen staff via QR
+runs_on:
+  ru: Веб, с телефона или планшета у станции
+  en: Web, on a phone or a tablet at the station
+link:
+  url: https://meridius.95-111-249-216.sslip.io
+login_steps:
+  - ru: Сотрудникам кухни — отсканируйте QR-наклейку на станции. Чек-лист откроется без регистрации и входа.
+    en: Kitchen staff — scan the QR sticker at the station. The checklist opens with no sign-up or sign-in.
+  - ru: Методистам и управляющим — откройте кабинет по ссылке (раздел /admin) и войдите паролем от владельца проекта.
+    en: Methodologists and managers — open the admin from the link (the /admin section) and sign in with the password from the project owner.
+  - ru: Планшет у станции привязывается один раз кодом с экрана /pair.
+    en: A station tablet is paired once with the code shown at /pair.
+demo: none               # демо только локальное (npm run up)
+sources:
+  - GarroV/meridius README.md («Три поверхности»)
+  - GarroV/meridius docs/furca/blocks/auth.md (вход в кабинет)
+  - GarroV/meridius deploy/README.md
+  - dotfiles docs/landscape.md

@@ -1,0 +1,159 @@
+---
+// Каркас плана. Строки заполняет скрипт после загрузки из Swarm;
+// до этого и при сбое виден статус (загрузка / «временно недоступен»).
+import type { Dict } from '../i18n/ru';
+
+interface Props {
+  d: Dict;
+  /** 'all' — общая лента главной, иначе slug проекта. */
+  scope: string;
+  compact?: boolean;
+  headingLevel?: 'h3' | 'h4';
+}
+const { d, scope, compact = false, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+const groups = [
+  { key: 'inProgress', title: d.planInProgress },
+  { key: 'planned', title: d.planNext },
+  { key: 'shipped', title: d.planShipped },
+] as const;
+---
+
+<div class:list={['plan', { compact }]} data-roadmap={scope} data-state="loading">
+  <p class="plan-status" data-plan-status role="status" aria-live="polite">{d.planLoading}</p>
+  <noscript><p class="plan-status">{d.noscript}</p></noscript>
+  <div class="groups">
+    {
+      groups.map((g) => (
+        <section class="group" data-group={g.key}>
+          <H class="group-title">{g.title}</H>
+          <ul class="feed" data-rows />
+        </section>
+      ))
+    }
+  </div>
+  {d.planTitlesNote && <p class="titles-note">{d.planTitlesNote}</p>}
+</div>
+
+<style>
+  .plan-status {
+    margin: 0 0 16px;
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+  .plan[data-state='unavailable'] .plan-status {
+    background: var(--warn-bg);
+    color: var(--ink);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+  }
+  .plan:not([data-state='ready']) .groups,
+  .plan:not([data-state='ready']) .titles-note {
+    display: none;
+  }
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .group:first-child {
+    grid-column: 1 / -1;
+  }
+  .group-title {
+    font-size: 21px;
+    letter-spacing: -0.015em;
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+  .feed {
+    list-style: none;
+    margin: 0;
+    background: var(--card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow);
+    padding: 8px 24px;
+  }
+  .feed :global(.row) {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .feed :global(.row:last-child) {
+    border-bottom: 0;
+  }
+  .feed :global(.row.is-empty) {
+    display: block;
+    color: var(--ink-3);
+  }
+  .feed :global(.proj) {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  .feed :global(.what) {
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  .feed :global(.stage) {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--ink-2);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .feed :global(.stage-inProgress) {
+    color: var(--pilot);
+  }
+  .feed :global(.stage-shipped) {
+    color: var(--ok);
+  }
+  .titles-note {
+    margin: 12px 0 0;
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+
+  /* В карточке: без подложек, группы друг под другом. */
+  .compact .groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .compact .group-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .compact .feed {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0;
+  }
+  .compact .feed :global(.row) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 8px 0;
+  }
+
+  @media (max-width: 760px) {
+    .groups {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .feed {
+      padding: 4px 18px;
+    }
+    .feed :global(.row) {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px 12px;
+    }
+    .feed :global(.proj) {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

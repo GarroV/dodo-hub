@@ -1,0 +1,299 @@
+<!-- Утверждённый макет (28.09.2026, «в целом ок»). Данные в нём выдуманы; живой сайт берёт их из src/content/projects. -->
+<title>Проекты Dodo</title>
+<style>
+:root{
+  --bg:#f5f5f7; --card:#ffffff; --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b;
+  --line:rgba(0,0,0,.08); --accent:#ff6900; --accent-ink:#c24e00;
+  --ok:#1f9d55; --pilot:#0a84ff; --build:#b7791f;
+  --tint-decimus:#fff1e6; --tint-meridius:#e9f3ff; --tint-maximus:#eefbf1; --tint-build:#f6f0ff;
+  --glass:rgba(255,255,255,.72); --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#000000; --card:#1c1c1e; --ink:#f5f5f7; --ink-2:#a1a1a6; --ink-3:#8e8e93;
+  --line:rgba(255,255,255,.1); --accent:#ff7a1a; --accent-ink:#ff9a4d;
+  --ok:#30d158; --pilot:#64d2ff; --build:#ffd60a;
+  --tint-decimus:#2a1a0e; --tint-meridius:#0e1c2c; --tint-maximus:#0f2416; --tint-build:#1f1630;
+  --glass:rgba(28,28,30,.72); --shadow:0 0 0 1px rgba(255,255,255,.06);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#000000; --card:#1c1c1e; --ink:#f5f5f7; --ink-2:#a1a1a6; --ink-3:#8e8e93;
+  --line:rgba(255,255,255,.1); --accent:#ff7a1a; --accent-ink:#ff9a4d;
+  --ok:#30d158; --pilot:#64d2ff; --build:#ffd60a;
+  --tint-decimus:#2a1a0e; --tint-meridius:#0e1c2c; --tint-maximus:#0f2416; --tint-build:#1f1630;
+  --glass:rgba(28,28,30,.72); --shadow:0 0 0 1px rgba(255,255,255,.06);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.47;
+  -webkit-font-smoothing:antialiased;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1080px;margin-inline:auto}
+a{color:var(--accent-ink)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:12px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin-inline:-16px;padding:12px 16px;
+  background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-.01em}
+.dot{width:22px;height:22px;border-radius:7px;background:var(--accent);display:grid;place-items:center}
+.dot i{width:8px;height:8px;border-radius:50%;background:#fff}
+.lang{display:flex;background:var(--line);border-radius:999px;padding:2px}
+.lang button{border:0;background:transparent;color:var(--ink-2);font:inherit;font-size:13px;font-weight:600;padding:4px 12px;border-radius:999px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+.note{margin-top:20px;display:inline-flex;gap:8px;align-items:center;font-size:13px;color:var(--ink-2);
+  border:1px dashed var(--line);border-radius:999px;padding:4px 12px}
+
+/* hero */
+.hero{padding-block:40px 32px}
+.hero h1{font-size:clamp(40px,7vw,64px);line-height:1.05;letter-spacing:-.03em;font-weight:700;margin:0;text-wrap:balance}
+.hero h1 span{color:var(--ink-3)}
+.hero p{font-size:clamp(19px,2.4vw,24px);color:var(--ink-2);max-width:32ch;margin:16px 0 0;letter-spacing:-.01em;text-wrap:balance}
+
+/* bento */
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.tile{grid-column:span 3;position:relative;text-align:left;border:0;cursor:pointer;color:inherit;font:inherit;
+  background:var(--card);border-radius:28px;padding:28px;min-height:280px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:8px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.tile:hover{transform:scale(1.012)}
+.tile.lg{grid-column:span 4;min-height:360px}
+.tile.sm{grid-column:span 2;min-height:360px}
+.tile::after{content:"";position:absolute;inset:auto -20% -40% auto;width:70%;aspect-ratio:1;border-radius:50%;background:var(--tint);opacity:.9;z-index:0}
+.tile>*{position:relative;z-index:1}
+.tile[data-p="decimus"]{--tint:var(--tint-decimus)}
+.tile[data-p="meridius"]{--tint:var(--tint-meridius)}
+.tile[data-p="maximus"]{--tint:var(--tint-maximus)}
+.tile[data-p="construction"]{--tint:var(--tint-build)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.tile h2{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.025em;line-height:1.08;margin:0;font-weight:700}
+.tile .desc{color:var(--ink-2);font-size:17px;margin:0;max-width:30ch;text-wrap:pretty}
+.foot{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:5px 11px;border-radius:999px;background:var(--bg);white-space:nowrap}
+.pill b{width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-live{color:var(--ok)} .s-pilot{color:var(--pilot)} .s-build{color:var(--build)}
+.more{font-size:15px;font-weight:500;color:var(--accent-ink)}
+.glyph{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--tint);margin-bottom:8px}
+.glyph svg{width:30px;height:30px;stroke:var(--ink);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* in progress */
+.section{margin-top:72px}
+.section h3{font-size:clamp(28px,4vw,40px);letter-spacing:-.025em;margin:0 0 6px;font-weight:700}
+.section .sub{color:var(--ink-2);margin:0 0 24px}
+.feed{background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:8px 24px}
+.row{display:grid;grid-template-columns:120px 1fr auto;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .proj{font-size:13px;font-weight:600;color:var(--ink-2)}
+.row .what{font-weight:500}
+.row .what small{display:block;color:var(--ink-3);font-weight:400;font-size:14px}
+.stage{font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--bg);color:var(--ink-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.stage.review{color:var(--pilot)} .stage.shipped{color:var(--ok)}
+
+/* sheet */
+dialog{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%;margin:0}
+dialog::backdrop{background:rgba(0,0,0,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sheet{background:var(--card);color:var(--ink);width:min(720px,calc(100% - 32px));max-height:calc(100% - 64px);overflow:auto;
+  margin:32px auto;border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.3);animation:up .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes up{from{transform:translateY(24px) scale(.98);opacity:.6}to{transform:none;opacity:1}}
+.sheet-head{padding:32px 32px 20px;background:var(--tint);position:relative}
+.sheet-head h2{font-size:clamp(34px,6vw,48px);letter-spacing:-.03em;margin:4px 0 6px;line-height:1.05}
+.sheet-head p{margin:0;color:var(--ink-2);font-size:19px;max-width:40ch}
+.close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:0;background:var(--glass);color:var(--ink);font-size:20px;cursor:pointer;line-height:1}
+.sheet-body{padding:24px 32px 32px;display:grid;gap:28px}
+.link{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.url{flex:1 1 240px;min-width:0;font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;background:var(--bg);border-radius:14px;padding:12px 14px;overflow-wrap:anywhere;user-select:all}
+.btn{border:0;font:inherit;font-size:15px;font-weight:600;border-radius:999px;padding:11px 18px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:var(--bg);color:var(--ink)}
+.health{font-size:13px;color:var(--ink-2);margin-top:8px;display:flex;gap:6px;align-items:center}
+.health b{width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:12px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+ol.steps li::before{content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.fact{background:var(--bg);border-radius:16px;padding:14px 16px}
+.fact dt{font-size:13px;color:var(--ink-3)}
+.fact dd{margin:2px 0 0;font-weight:500}
+.mini{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.mini li{display:flex;justify-content:space-between;gap:12px;align-items:center}
+
+footer{margin-top:56px;color:var(--ink-3);font-size:13px;text-align:center}
+
+@media (max-width:760px){
+  .tile,.tile.lg,.tile.sm{grid-column:span 6;min-height:240px}
+  .row{grid-template-columns:1fr auto}
+  .row .proj{grid-column:1/-1;margin-bottom:-10px}
+  .sheet-head,.sheet-body{padding-inline:20px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="bar"><div class="wrap">
+  <div class="brand"><span class="dot"><i></i></span><span data-t="brand">Проекты Dodo</span></div>
+  <div class="lang" role="group" aria-label="Язык">
+    <button id="l-ru" aria-pressed="true" data-l="ru">RU</button>
+    <button id="l-en" aria-pressed="false" data-l="en">EN</button>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <div class="note" data-t="note">Концепция · тексты и ссылки — примеры</div>
+  <section class="hero">
+    <h1 data-t="h1">Все проекты.<br><span>В одном месте.</span></h1>
+    <p data-t="lead">Куда зайти, что умеет и что сейчас в работе. Нажмите на плитку, чтобы открыть карточку.</p>
+  </section>
+
+  <section class="grid" id="grid"></section>
+
+  <section class="section">
+    <h3 data-t="wipTitle">Сейчас в работе</h3>
+    <p class="sub" data-t="wipSub">Задачи с меткой hub из репозиториев проектов. Обновлено 28 сентября, 14:00.</p>
+    <div class="feed" id="feed"></div>
+  </section>
+
+  <footer data-t="footer">Собирается автоматически из GitHub · вопросы — владельцу проекта</footer>
+</main>
+
+<dialog id="sheet" aria-labelledby="s-title"><div class="sheet" id="sheet-inner"></div></dialog>
+
+<script>
+const ICON={
+  decimus:'<path d="M9 4h6l1 2h3v14H5V6h3z"/><path d="M9 12l2 2 4-4"/>',
+  meridius:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/>',
+  maximus:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  construction:'<path d="M3 20h18M6 20V9l6-5 6 5v11"/><path d="M10 20v-5h4v5"/>'
+};
+const P={
+  decimus:{size:"lg",status:"build",
+    ru:{kind:"Бот · веб-админка · MCP",name:"Decimus",desc:"Аудиты пиццерий: чек-лист в Telegram, отчёты и замечания в веб-админке.",
+      who:"Территориальные управляющие и аудиторы",owner:"@owner (пример)",where:"Веб + Telegram",
+      steps:["Откройте ссылку и войдите через Telegram.","Попросите владельца проекта выдать роль аудитора.","Начните аудит в боте командой /audit."]},
+    en:{kind:"Bot · web admin · MCP",name:"Decimus",desc:"Pizzeria audits: a checklist in Telegram, reports and findings in the web admin.",
+      who:"Area managers and auditors",owner:"@owner (example)",where:"Web + Telegram",
+      steps:["Open the link and sign in with Telegram.","Ask the project owner for the auditor role.","Start an audit in the bot with /audit."]},
+    url:"https://decimus.example.dodo",health:"ok"},
+  meridius:{size:"sm",status:"build",
+    ru:{kind:"Веб · QR",name:"Meridius",desc:"Чек-листы станций пиццерии по QR-коду на станции.",
+      who:"Сотрудники и менеджеры смены",owner:"@owner (пример)",where:"Веб, с телефона",
+      steps:["Отсканируйте QR на станции.","Выберите свою смену.","Отметьте пункты чек-листа."]},
+    en:{kind:"Web · QR",name:"Meridius",desc:"Station checklists in the pizzeria, opened from a QR code.",
+      who:"Staff and shift managers",owner:"@owner (example)",where:"Web, on a phone",
+      steps:["Scan the QR code at the station.","Pick your shift.","Tick off the checklist."]},
+    url:"https://meridius.example.dodo",health:"ok"},
+  maximus:{size:"sm",status:"pilot",
+    ru:{kind:"Данные · P&L",name:"Maximus",desc:"Сбор данных и P&L для партнёров. Пилот в Сербии.",
+      who:"Партнёры пилота",owner:"@owner (пример)",where:"Веб",
+      steps:["Напишите владельцу проекта, чтобы получить доступ к пилоту.","Откройте ссылку и войдите по приглашению.","Выберите пиццерию и период."]},
+    en:{kind:"Data · P&L",name:"Maximus",desc:"Data collection and P&L for partners. Pilot in Serbia.",
+      who:"Pilot partners",owner:"@owner (example)",where:"Web",
+      steps:["Message the project owner to join the pilot.","Open the link and sign in with your invite.","Pick a pizzeria and a period."]},
+    url:"https://maximus.example.dodo",health:"ok"},
+  construction:{size:"lg",status:"live",
+    ru:{kind:"Telegram-бот",name:"Construction bot",desc:"Дайджесты по стройкам из Битрикс24: что сдвинулось, где риски, что ждёт решения.",
+      who:"Партнёры, у которых идёт стройка",owner:"@owner (пример)",where:"Telegram",
+      steps:["Откройте бота по ссылке и нажмите «Старт».","Отправьте номер своей стройки из Битрикс24.","Дайджест приходит каждое утро."]},
+    en:{kind:"Telegram bot",name:"Construction bot",desc:"Construction digests from Bitrix24: what moved, where the risks are, what needs a decision.",
+      who:"Partners with a site under construction",owner:"@owner (example)",where:"Telegram",
+      steps:["Open the bot from the link and press Start.","Send your construction ID from Bitrix24.","The digest arrives every morning."]},
+    url:"https://t.me/example_construction_bot",health:"ok"}
+};
+const ORDER=["decimus","meridius","maximus","construction"];
+const WIP=[
+  {p:"decimus",st:"doing",ru:["Фото к замечаниям прямо из бота","в работе"],en:["Photos attached to findings from the bot","in progress"]},
+  {p:"meridius",st:"review",ru:["Печать QR-наклеек для всех станций","на проверке"],en:["Printable QR stickers for every station","in review"]},
+  {p:"maximus",st:"doing",ru:["Сравнение P&L с прошлым месяцем","в работе"],en:["P&L compared with last month","in progress"]},
+  {p:"construction",st:"shipped",ru:["Дайджест теперь выделяет просроченные этапы","выкачено 26.09"],en:["The digest now highlights overdue stages","shipped Sep 26"]},
+  {p:"decimus",st:"shipped",ru:["Экспорт аудита в PDF","выкачено 24.09"],en:["Audit export to PDF","shipped Sep 24"]}
+];
+const T={
+  ru:{brand:"Проекты Dodo",note:"Концепция · тексты и ссылки — примеры",h1:'Все проекты.<br><span>В одном месте.</span>',
+    lead:"Куда зайти, что умеет и что сейчас в работе. Нажмите на плитку, чтобы открыть карточку.",
+    wipTitle:"Сейчас в работе",wipSub:"Задачи с меткой hub из репозиториев проектов. Обновлено 28 сентября, 14:00.",
+    footer:"Собирается автоматически из GitHub · вопросы — владельцу проекта",
+    status:{live:"Работает",pilot:"Пилот",build:"В разработке"},open:"Подробнее",
+    link:"Ссылка",openBtn:"Открыть",copy:"Скопировать",copied:"Скопировано",health:"Отвечает · проверено 5 мин назад",
+    how:"Как зайти",who:"Для кого",owner:"Владелец",where:"Где работает",wip:"В работе сейчас",close:"Закрыть"},
+  en:{brand:"Dodo projects",note:"Concept · texts and links are examples",h1:'Every project.<br><span>One place.</span>',
+    lead:"Where to go, what it does, and what’s in progress. Tap a tile to open its card.",
+    wipTitle:"In progress",wipSub:"Issues labelled hub from project repositories. Updated Sep 28, 14:00.",
+    footer:"Built automatically from GitHub · questions go to the project owner",
+    status:{live:"Live",pilot:"Pilot",build:"In development"},open:"Details",
+    link:"Link",openBtn:"Open",copy:"Copy",copied:"Copied",health:"Responding · checked 5 min ago",
+    how:"How to get in",who:"Who it’s for",owner:"Owner",where:"Runs on",wip:"In progress now",close:"Close"}
+};
+let lang="ru";
+try{lang=localStorage.getItem("hub-lang")||"ru"}catch(e){}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pill=st=>`<span class="pill s-${st}"><b></b>${T[lang].status[st]}</span>`;
+
+function renderGrid(){
+  document.getElementById("grid").innerHTML=ORDER.map(k=>{const p=P[k],c=p[lang];return `
+  <button class="tile ${p.size}" data-p="${k}" id="tile-${k}" aria-haspopup="dialog">
+    <span class="glyph" aria-hidden="true"><svg viewBox="0 0 24 24">${ICON[k]}</svg></span>
+    <span class="eyebrow">${esc(c.kind)}</span>
+    <h2>${esc(c.name)}</h2>
+    <p class="desc">${esc(c.desc)}</p>
+    <span class="foot">${pill(p.status)}<span class="more">${T[lang].open} ›</span></span>
+  </button>`}).join("");
+  document.querySelectorAll(".tile").forEach(b=>b.addEventListener("click",()=>openSheet(b.dataset.p)));
+}
+function renderFeed(){
+  document.getElementById("feed").innerHTML=WIP.map(w=>`
+  <div class="row"><span class="proj">${esc(P[w.p][lang].name)}</span>
+    <span class="what">${esc(w[lang][0])}</span>
+    <span class="stage ${w.st}">${esc(w[lang][1])}</span></div>`).join("");
+}
+function renderStatic(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-t]").forEach(el=>{el.innerHTML=T[lang][el.dataset.t]});
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===lang));
+}
+function openSheet(k){
+  const p=P[k],c=p[lang],t=T[lang];
+  const wip=WIP.filter(w=>w.p===k);
+  const inner=document.getElementById("sheet-inner");
+  inner.style.setProperty("--tint",`var(--tint-${k==="construction"?"build":k})`);
+  inner.innerHTML=`
+  <div class="sheet-head">
+    <button class="close" id="s-close" aria-label="${t.close}">×</button>
+    <span class="eyebrow">${esc(c.kind)}</span>
+    <h2 id="s-title">${esc(c.name)}</h2>
+    <p>${esc(c.desc)}</p>
+    <div style="margin-top:14px">${pill(p.status)}</div>
+  </div>
+  <div class="sheet-body">
+    <div><p class="label">${t.link}</p>
+      <div class="link"><span class="url" id="s-url">${esc(p.url)}</span>
+        <a class="btn primary" href="${esc(p.url)}" target="_blank" rel="noopener">${t.openBtn}</a>
+        <button class="btn ghost" id="s-copy">${t.copy}</button></div>
+      <div class="health"><b></b>${t.health}</div></div>
+    <div><p class="label">${t.how}</p><ol class="steps">${c.steps.map(s=>`<li><span>${esc(s)}</span></li>`).join("")}</ol></div>
+    <dl class="facts" style="margin:0">
+      <div class="fact"><dt>${t.who}</dt><dd>${esc(c.who)}</dd></div>
+      <div class="fact"><dt>${t.where}</dt><dd>${esc(c.where)}</dd></div>
+      <div class="fact"><dt>${t.owner}</dt><dd>${esc(c.owner)}</dd></div>
+    </dl>
+    ${wip.length?`<div><p class="label">${t.wip}</p><ul class="mini">${wip.map(w=>`<li><span>${esc(w[lang][0])}</span><span class="stage ${w.st}">${esc(w[lang][1])}</span></li>`).join("")}</ul></div>`:""}
+  </div>`;
+  const d=document.getElementById("sheet");
+  d.showModal();
+  document.getElementById("s-close").onclick=()=>d.close();
+  const cp=document.getElementById("s-copy");
+  cp.onclick=()=>{
+    navigator.clipboard.writeText(p.url).then(()=>{cp.textContent=t.copied},()=>{
+      const r=document.createRange();r.selectNodeContents(document.getElementById("s-url"));
+      const s=getSelection();s.removeAllRanges();s.addRange(r);});
+  };
+}
+document.getElementById("sheet").addEventListener("click",e=>{if(e.target.id==="sheet")e.target.close()});
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>{
+  lang=b.dataset.l;try{localStorage.setItem("hub-lang",lang)}catch(e){}
+  renderAll();
+}));
+function renderAll(){renderStatic();renderGrid();renderFeed()}
+renderAll();
+if(P[location.hash.slice(1)])openSheet(location.hash.slice(1));
+</script>

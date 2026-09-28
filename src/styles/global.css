@@ -1,0 +1,209 @@
+/* Токены и база. Визуал — утверждённый макет (docs/mockup.html):
+   bento-сетка, системный шрифт SF, светлая и тёмная тема. */
+:root {
+  --bg: #f5f5f7;
+  --card: #ffffff;
+  --ink: #1d1d1f;
+  --ink-2: #6e6e73;
+  --ink-3: #6e6e73;
+  --line: rgba(0, 0, 0, 0.08);
+  --accent: #ff6900;
+  --accent-ink: #b34700;
+  --on-accent: #1d1d1f;
+  --ok: #1a7f45;
+  --pilot: #0066cc;
+  --build: #8a5a00;
+  --warn-bg: #fff4e5;
+  --tint-orange: #fff1e6;
+  --tint-blue: #e9f3ff;
+  --tint-green: #eefbf1;
+  --tint-violet: #f6f0ff;
+  --glass: rgba(255, 255, 255, 0.72);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-lift: 0 30px 80px rgba(0, 0, 0, 0.3);
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --radius-xl: 28px;
+  --radius-md: 16px;
+  --space-section: clamp(56px, 8vw, 88px);
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --duration: 0.35s;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #000000;
+    --card: #1c1c1e;
+    --ink: #f5f5f7;
+    --ink-2: #a1a1a6;
+    --ink-3: #98989d;
+    --line: rgba(255, 255, 255, 0.1);
+    --accent: #ff7a1a;
+    --accent-ink: #ff9a4d;
+    --on-accent: #000000;
+    --ok: #30d158;
+    --pilot: #64d2ff;
+    --build: #ffd60a;
+    --warn-bg: #2a1d0e;
+    --tint-orange: #2a1a0e;
+    --tint-blue: #0e1c2c;
+    --tint-green: #0f2416;
+    --tint-violet: #1f1630;
+    --glass: rgba(28, 28, 30, 0.72);
+    --shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #000000;
+  --card: #1c1c1e;
+  --ink: #f5f5f7;
+  --ink-2: #a1a1a6;
+  --ink-3: #98989d;
+  --line: rgba(255, 255, 255, 0.1);
+  --accent: #ff7a1a;
+  --accent-ink: #ff9a4d;
+  --on-accent: #000000;
+  --ok: #30d158;
+  --pilot: #64d2ff;
+  --build: #ffd60a;
+  --warn-bg: #2a1d0e;
+  --tint-orange: #2a1a0e;
+  --tint-blue: #0e1c2c;
+  --tint-green: #0f2416;
+  --tint-violet: #1f1630;
+  --glass: rgba(28, 28, 30, 0.72);
+  --shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.47;
+  -webkit-font-smoothing: antialiased;
+  padding-inline: 16px;
+  padding-block: 0 64px;
+  overflow-x: clip;
+}
+.wrap {
+  max-width: 1080px;
+  margin-inline: auto;
+}
+a {
+  color: var(--accent-ink);
+}
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.skip {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 10;
+  background: var(--card);
+  padding: 8px 14px;
+  border-radius: 999px;
+}
+.skip:focus {
+  top: 12px;
+}
+
+.eyebrow,
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.label {
+  margin: 0 0 10px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--bg);
+  white-space: nowrap;
+}
+.pill b {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.s-live {
+  color: var(--ok);
+}
+.s-pilot {
+  color: var(--pilot);
+}
+.s-build {
+  color: var(--build);
+}
+
+.pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+[data-tint='orange'] {
+  --tint: var(--tint-orange);
+}
+[data-tint='blue'] {
+  --tint: var(--tint-blue);
+}
+[data-tint='green'] {
+  --tint: var(--tint-green);
+}
+[data-tint='violet'] {
+  --tint: var(--tint-violet);
+}
+
+footer.site {
+  margin-top: 56px;
+  color: var(--ink-3);
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

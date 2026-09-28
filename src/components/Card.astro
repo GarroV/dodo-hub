@@ -1,0 +1,323 @@
+---
+// Карточка проекта поверх страницы (<dialog>). Открывается по #slug,
+// поэтому на карточку можно дать прямую ссылку.
+import StatusPill from './StatusPill.astro';
+import Pending from './Pending.astro';
+import Plan from './Plan.astro';
+import { isTodo, type Project } from '../lib/schema';
+import type { Dict } from '../i18n/ru';
+import type { Locale } from '../i18n';
+
+interface Props {
+  slug: string;
+  project: Project;
+  locale: Locale;
+  d: Dict;
+}
+const { slug, project: p, locale, d } = Astro.props;
+const titleId = `card-${slug}-title`;
+const link = isTodo(p.link) ? null : p.link;
+const steps = isTodo(p.login_steps) ? null : p.login_steps;
+const demo = isTodo(p.demo) ? undefined : p.demo;
+const facts = [
+  { label: d.audience, value: isTodo(p.audience) ? null : p.audience[locale] },
+  { label: d.runsOn, value: isTodo(p.runs_on) ? null : p.runs_on[locale] },
+  { label: d.owner, value: p.owner },
+];
+---
+
+<dialog class="card" id={`card-${slug}`} aria-labelledby={titleId} data-tint={p.tint} data-card={slug}>
+  <div class="sheet">
+    <div class="head">
+      <button class="close" type="button" data-close aria-label={d.close}>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+      </button>
+      <span class="eyebrow">{p.kind[locale]}</span>
+      <h2 id={titleId}>{p.name}</h2>
+      <p>{p.summary[locale]}</p>
+      <div class="status"><StatusPill status={p.status} d={d} /></div>
+    </div>
+
+    <div class="body">
+      <section>
+        <h3 class="label">{d.link}</h3>
+        {
+          link ? (
+            <div class="link">
+              <span class="url" data-link>{link.url}</span>
+              <a class="btn primary" href={link.url} target="_blank" rel="noopener noreferrer">
+                {link.label ? link.label[locale] : d.open}
+              </a>
+              <button class="btn ghost" type="button" data-copy={link.url}>
+                {d.copy}
+              </button>
+              <span class="copy-status" data-copy-status role="status" aria-live="polite" />
+            </div>
+          ) : (
+            <Pending label={d.pending} />
+          )
+        }
+      </section>
+
+      <section>
+        <h3 class="label">{d.howToEnter}</h3>
+        {
+          steps ? (
+            <ol class="steps">
+              {steps.map((s) => (
+                <li>
+                  <span>{s[locale]}</span>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <Pending label={d.pending} />
+          )
+        }
+      </section>
+
+      <dl class="facts">
+        {
+          facts.map((f) => (
+            <div class="fact">
+              <dt>{f.label}</dt>
+              <dd>{f.value ?? <Pending label={d.pending} />}</dd>
+            </div>
+          ))
+        }
+        <div class="fact">
+          <dt>{d.demo}</dt>
+          <dd>
+            {
+              demo === undefined ? (
+                <Pending label={d.pending} />
+              ) : demo === 'none' ? (
+                d.demoNone
+              ) : (
+                <a href={demo.url} target="_blank" rel="noopener noreferrer">
+                  {d.demoOpen}
+                </a>
+              )
+            }
+          </dd>
+        </div>
+        <div class="fact">
+          <dt>{d.repo}</dt>
+          <dd>{p.repo}</dd>
+        </div>
+      </dl>
+
+      <section>
+        <h3 class="label">{d.planHeading}</h3>
+        {p.swarm_project_id ? <Plan d={d} scope={slug} compact headingLevel="h4" /> : <p class="muted">{d.planNone}</p>}
+      </section>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  dialog {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    max-width: none;
+    max-height: none;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    color: var(--ink);
+    overscroll-behavior: contain;
+  }
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .sheet {
+    background: var(--card);
+    width: min(720px, calc(100% - 32px));
+    max-height: calc(100% - 64px);
+    overflow: auto;
+    margin: 32px auto;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lift);
+  }
+  dialog[open] .sheet {
+    animation: up 0.4s var(--ease);
+  }
+  @keyframes up {
+    from {
+      transform: translateY(24px) scale(0.98);
+      opacity: 0.6;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+  .head {
+    padding: 32px 32px 20px;
+    background: var(--tint);
+    position: relative;
+  }
+  .head h2 {
+    font-size: clamp(34px, 6vw, 48px);
+    letter-spacing: -0.03em;
+    margin: 4px 0 6px;
+    line-height: 1.05;
+    padding-right: 44px;
+    overflow-wrap: anywhere;
+  }
+  .head p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 19px;
+    max-width: 40ch;
+  }
+  .status {
+    margin-top: 14px;
+  }
+  .close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 0;
+    background: var(--glass);
+    color: var(--ink);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+  .close svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .close:hover {
+    background: var(--card);
+  }
+  .body {
+    padding: 24px 32px 32px;
+    display: grid;
+    gap: 28px;
+  }
+  .body section {
+    min-width: 0;
+  }
+  .link {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .url {
+    flex: 1 1 240px;
+    min-width: 0;
+    font-family: var(--mono);
+    font-size: 15px;
+    background: var(--bg);
+    border-radius: 14px;
+    padding: 12px 14px;
+    overflow-wrap: anywhere;
+    user-select: all;
+  }
+  .copy-status {
+    flex-basis: 100%;
+    font-size: 13px;
+    color: var(--ink-2);
+    min-height: 1em;
+  }
+  .btn {
+    border: 0;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 11px 18px;
+    min-height: 44px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.15s var(--ease);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn.primary {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .btn.ghost {
+    background: var(--bg);
+    color: var(--ink);
+  }
+  ol.steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: s;
+    display: grid;
+    gap: 12px;
+  }
+  ol.steps li {
+    counter-increment: s;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+  }
+  ol.steps li::before {
+    content: counter(s);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg);
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 0;
+  }
+  .fact {
+    background: var(--bg);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    min-width: 0;
+  }
+  .fact dt {
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .fact dd {
+    margin: 2px 0 0;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  .muted {
+    margin: 0;
+    color: var(--ink-2);
+  }
+  @media (max-width: 760px) {
+    .sheet {
+      width: calc(100% - 16px);
+      margin: 16px auto;
+      max-height: calc(100% - 32px);
+    }
+    .head,
+    .body {
+      padding-inline: 20px;
+    }
+  }
+</style>

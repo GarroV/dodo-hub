@@ -1,0 +1,35 @@
+# Факты — из репозитория GarroV/maximus и карты хозяйства.
+order: 3
+name: Maximus
+repo: GarroV/maximus
+status: pilot            # карта хозяйства: «живой (пилот, Сербия)»
+size: sm
+glyph: chart
+tint: green
+swarm_project_id: bf4ac028-3fd8-4908-8028-1e85c626040e
+owner: Vasiliy Garro
+kind:
+  ru: Веб · данные · P&L
+  en: Web · data · P&L
+summary:
+  ru: Сбор первичных данных и сборка P&L для партнёров Dodo. Пилот — Сербия.
+  en: Primary data collection and P&L for Dodo partners. Pilot in Serbia.
+audience:
+  ru: Бухгалтер, операционный директор, управляющий точки и администратор сети партнёра
+  en: The partner’s accountant, operations director, restaurant manager and network administrator
+runs_on:
+  ru: Веб
+  en: Web
+link:
+  todo: "Публичного адреса нет: продукт наружу не выведен (решения D007/D038), демо закрыто ключом. Какую ссылку давать коллегам?"
+login_steps:
+  - ru: Доступ только по приглашению — его отправляет администратор сети партнёра.
+    en: Access is by invitation only — the partner’s network administrator sends it.
+demo:
+  todo: "Демо есть, но вход закрыт ключом (DEMO_KEY). Публиковать ли вход в демо и по какому адресу?"
+sources:
+  - GarroV/maximus README.md
+  - GarroV/maximus docs/architecture.md («Кто им пользуется»)
+  - GarroV/maximus docs/furca/blocks/roles.md (/roles/invite/)
+  - GarroV/maximus docs/furca/blocks/demo.md
+  - dotfiles docs/landscape.md

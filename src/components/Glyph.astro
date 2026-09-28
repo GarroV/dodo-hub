@@ -1,0 +1,45 @@
+---
+import type { Project } from '../lib/schema';
+
+interface Props {
+  glyph: Project['glyph'];
+}
+// Иконки из утверждённого макета.
+const PATHS: Record<Project['glyph'], string[]> = {
+  audit: ['M9 4h6l1 2h3v14H5V6h3z', 'M9 12l2 2 4-4'],
+  qr: [
+    'M4 4h6v6H4z',
+    'M14 4h6v6h-6z',
+    'M4 14h6v6H4z',
+    'M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2',
+  ],
+  chart: ['M4 20V10M10 20V4M16 20v-7M22 20H2'],
+  building: ['M3 20h18M6 20V9l6-5 6 5v11', 'M10 20v-5h4v5'],
+};
+const { glyph } = Astro.props;
+---
+
+<span class="glyph" aria-hidden="true">
+  <svg viewBox="0 0 24 24" focusable="false">{PATHS[glyph].map((d) => <path d={d} />)}</svg>
+</span>
+
+<style>
+  .glyph {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: var(--tint);
+    margin-bottom: 8px;
+  }
+  svg {
+    width: 30px;
+    height: 30px;
+    stroke: var(--ink);
+    fill: none;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>

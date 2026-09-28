@@ -1,0 +1,105 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { LOCALES, t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t(locale);
+---
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href={getRelativeLocaleUrl(locale, '')}>
+      <span class="dot" aria-hidden="true"><i></i></span><span>{d.brand}</span>
+    </a>
+    <nav class="lang" aria-label={d.langGroup}>
+      {
+        LOCALES.map((l) => {
+          const href = getRelativeLocaleUrl(l, '');
+          return (
+            <a
+              href={href}
+              hreflang={l}
+              lang={l}
+              aria-current={l === locale ? 'page' : undefined}
+              aria-label={t(l).langName}
+            >
+              {l.toUpperCase()}
+            </a>
+          );
+        })
+      }
+    </nav>
+  </div>
+</header>
+
+<style>
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin-inline: -16px;
+    padding: 12px 16px;
+    padding-top: max(12px, env(safe-area-inset-top));
+    background: var(--glass);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--line);
+  }
+  .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    background: var(--accent);
+    display: grid;
+    place-items: center;
+  }
+  .dot i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .lang {
+    display: flex;
+    background: var(--line);
+    border-radius: 999px;
+    padding: 2px;
+  }
+  .lang a {
+    color: var(--ink-2);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    text-decoration: none;
+    min-width: 44px;
+    text-align: center;
+  }
+  .lang a:hover {
+    color: var(--ink);
+  }
+  .lang a[aria-current='page'] {
+    background: var(--card);
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  }
+</style>
