@@ -128,6 +128,11 @@ const facts = [
     color: var(--ink);
     overscroll-behavior: contain;
   }
+  /* showModal() фокусирует сам диалог; рамка вокруг всего листа читается
+     как поломка. Название карточки объявляется через aria-labelledby. */
+  dialog:focus {
+    outline: none;
+  }
   dialog::backdrop {
     background: rgba(0, 0, 0, 0.35);
     backdrop-filter: blur(6px);

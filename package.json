@@ -14,7 +14,8 @@
     "test:e2e": "playwright test",
     "check:negative": "node tools/negative-check.mjs",
     "screens": "node tools/capture-screens.mjs",
-    "verify": "npm run check && npm run build && npm run test:e2e"
+    "verify": "npm run check && npm run build && npm run test:e2e",
+    "smoke:live": "node tools/smoke-live.mjs"
   },
   "dependencies": {
     "astro": "^7.3.5"

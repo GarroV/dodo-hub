@@ -79,6 +79,7 @@ npm run dev             # http://localhost:4321/dodo-hub/, план из фик�
 npm run verify          # astro check + сборка + e2e на Playwright
 npm run check:negative  # ломает копию проекта и требует, чтобы проверки упали
 npm run screens         # пересъёмка скриншотов для README
+npm run smoke:live      # смоук живого сайта на Pages с настоящей выдачей Swarm
 ```
 
 Стек: Astro 7, статическая сборка, content collection с zod-схемой,
@@ -105,7 +106,9 @@ RU/EN, «уточняется» на месте `todo`, группы плана 
 
 GitHub Actions (`.github/workflows/pages.yml`): на каждый пуш и PR — проверка
 типов, e2e и проверка проверок; на `main` после них — сборка
-`withastro/action` и деплой на GitHub Pages. Репозиторий публичный
+`withastro/action` и деплой на GitHub Pages. После деплоя — `npm run smoke:live`:
+4 плитки, карточка со ссылкой, план загрузился или честно сказал «недоступен»,
+в консоли нет ошибок и нарушений CSP. Репозиторий публичный
 осознанно: на бесплатном тарифе Pages из приватного репозитория недоступны, а
 сайт и так публичный.
 
