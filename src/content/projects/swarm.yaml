@@ -1,10 +1,10 @@
 # Факты — из репозитория GarroV/Swarm-brain (ветка main) и проверки живого веба.
-order: 5
+order: 1
 name: Swarm
 repo: GarroV/Swarm-brain
 repo_public: true         # gh repo view: PUBLIC (28.09.2026)
 status: live             # решение владельца 28.09.2026: «работает»
-size: sm
+size: lg
 glyph: hive
 tint: orange
 swarm_project_id: 166ecbc5-3446-46c4-838a-512299226bd5   # подпроект «Swarm Brain» доски «Vibe Coding»

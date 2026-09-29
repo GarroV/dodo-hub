@@ -1,5 +1,5 @@
 # Факты — из репозитория GarroV/maximus, карты хозяйства и проверки живого демо.
-order: 3
+order: 5
 name: Maximus
 repo: GarroV/maximus
 repo_public: true         # gh repo view: PUBLIC (28.09.2026)

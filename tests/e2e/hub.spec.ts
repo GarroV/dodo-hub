@@ -129,6 +129,14 @@ test.describe('с фикстурой плана', () => {
     );
   });
 
+  test('порядок: сверху работающие (Swarm крупно), снизу проекты в разработке одинаковыми плитками', async ({ page }) => {
+    await page.goto('./');
+    const ids = await page.locator('a.tile').evaluateAll((els) => els.map((e) => e.id.replace('tile-', '')));
+    expect(ids).toEqual(['swarm', 'construction-bot', 'decimus', 'meridius', 'maximus']);
+    await expect(page.locator('#tile-swarm')).toHaveClass(/\blg\b/);
+    for (const slug of ['decimus', 'meridius', 'maximus']) await expect(page.locator(`#tile-${slug}`)).toHaveClass(/\bsm\b/);
+  });
+
   test('bento без дыр: каждый ряд плиток заполнен до края', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('./');

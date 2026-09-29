@@ -1,6 +1,6 @@
 # Факты — из репозитория GarroV/construction_bot (ветка main), карты хозяйства
 # и getMe работающего бота. Доски в Swarm нет и не будет: проект уже просто работает.
-order: 4
+order: 2
 name: Construction bot
 repo: GarroV/construction_bot
 repo_public: false        # gh repo view: PRIVATE (28.09.2026) — ссылку не показываем

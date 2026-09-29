@@ -1,11 +1,11 @@
 # Факты — из репозитория GarroV/decimus (ветка main) и карты хозяйства.
 # Чего нет в источниках — `todo` с вопросом владельцу; сайт пишет «уточняется».
-order: 1
+order: 3
 name: Decimus
 repo: GarroV/decimus
 repo_public: true         # gh repo view: PUBLIC (28.09.2026)
 status: build            # решение владельца 28.09.2026: «в разработке»
-size: lg
+size: sm
 glyph: audit
 tint: orange
 swarm_project_id: 0b0255cc-b72d-454b-958d-ddbefde73330
