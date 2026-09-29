@@ -1,9 +1,9 @@
 import type { Dict } from './ru';
 
 export const en: Dict = {
-  htmlTitle: 'Dodo projects',
+  htmlTitle: 'IMF Vibe Coding',
   metaDescription: 'Where to go, what each project does, and what is in progress.',
-  brand: 'Dodo projects',
+  brand: 'IMF Vibe Coding',
   langGroup: 'Language',
   langName: 'English',
   skip: 'Skip to projects',

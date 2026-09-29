@@ -1,9 +1,9 @@
 // Словарь русской версии. Ключи обязаны совпадать во всех языках —
 // тип Dict выводится отсюда, а en.ts проверяется на соответствие.
 export const ru = {
-  htmlTitle: 'Проекты Dodo',
+  htmlTitle: 'IMF Vibe Coding',
   metaDescription: 'Куда зайти, что умеет каждый проект и что сейчас в работе.',
-  brand: 'Проекты Dodo',
+  brand: 'IMF Vibe Coding',
   langGroup: 'Язык',
   langName: 'Русский',
   skip: 'К проектам',

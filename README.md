@@ -1,4 +1,4 @@
-# Проекты Dodo — хаб
+# IMF Vibe Coding — хаб проектов
 
 **Сайт:** https://garrov.github.io/imf-vc/ · English: https://garrov.github.io/imf-vc/en/
 
