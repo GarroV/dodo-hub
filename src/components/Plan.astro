@@ -5,7 +5,7 @@ import type { Dict } from '../i18n/ru';
 
 interface Props {
   d: Dict;
-  /** 'all' — общая лента главной, иначе slug проекта. */
+  /** slug проекта: план живёт только в его карточке. */
   scope: string;
   compact?: boolean;
   headingLevel?: 'h3' | 'h4';

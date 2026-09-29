@@ -3,7 +3,6 @@
 import { fetchRoadmap, groupItems, parseRoadmap, type Grouped, type RoadmapResult } from '../lib/roadmap';
 import { readConfig, type HubConfig } from './config';
 
-const PLANNED_LIMIT_FEED = 3;
 const PLANNED_LIMIT_CARD = 5;
 
 const config = readConfig();
@@ -138,15 +137,13 @@ function renderPlan(result: RoadmapResult & { ok: true }, containers: readonly H
 
   for (const c of containers) {
     const slug = c.dataset.roadmap;
-    const targets = config.projects.filter((p) => p.swarmId && (slug === 'all' || p.slug === slug));
-    const limit = slug === 'all' ? PLANNED_LIMIT_FEED : PLANNED_LIMIT_CARD;
+    const targets = config.projects.filter((p) => p.swarmId && p.slug === slug);
     const rows: Record<GroupKey, Row[]> = { inProgress: [], planned: [], shipped: [] };
     for (const p of targets) {
-      const grouped = groupItems(byId.get(p.swarmId!.toLowerCase()) ?? [], now, limit);
+      const grouped = groupItems(byId.get(p.swarmId!.toLowerCase()) ?? [], now, PLANNED_LIMIT_CARD);
       for (const key of GROUPS) {
         for (const item of grouped[key]) {
           rows[key].push({
-            projectName: slug === 'all' ? p.name : undefined,
             title: item.title,
             stage: stageText(key, item.due, item.shippedAt),
           });

@@ -3,7 +3,6 @@ import Base from '../../layouts/Base.astro';
 import TopBar from '../../components/TopBar.astro';
 import Tile from '../../components/Tile.astro';
 import Card from '../../components/Card.astro';
-import Plan from '../../components/Plan.astro';
 import { DEFAULT_LOCALE, LOCALES, isLocale, t, type Locale } from '../../i18n';
 import { getProjects } from '../../lib/projects';
 import { ROADMAP_URL } from '../../lib/roadmap-url';
@@ -42,12 +41,6 @@ const configJson = JSON.stringify(config).replace(/</g, '\\u003c');
       <div class="grid">
         {projects.map((p) => <Tile slug={p.id} project={p.data} locale={locale} d={d} />)}
       </div>
-    </section>
-
-    <section class="section" aria-labelledby="plan-title">
-      <h2 id="plan-title">{d.planHeading}</h2>
-      <p class="sub">{d.planLead}</p>
-      <Plan d={d} scope="all" />
     </section>
 
     <footer class="site">{d.footer}</footer>

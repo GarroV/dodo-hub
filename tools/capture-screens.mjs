@@ -21,7 +21,8 @@ const SHOTS = [
   { file: 'card-decimus.png', path: '#decimus', scheme: 'light', viewport: { width: 1280, height: 900 } },
   { file: 'home-en.png', path: 'en/', scheme: 'light', viewport: { width: 1280, height: 800 } },
   { file: 'mobile-card.png', path: '#meridius', scheme: 'dark', viewport: { width: 390, height: 844 } },
-  { file: 'plan-unavailable.png', path: '', scheme: 'light', viewport: { width: 1280, height: 800 }, outage: true, scrollTo: '#plan-title' },
+  { file: 'card-plan.png', path: '#decimus', scheme: 'light', viewport: { width: 1280, height: 900 }, scrollTo: '#card-decimus [data-roadmap]' },
+  { file: 'plan-unavailable.png', path: '#decimus', scheme: 'light', viewport: { width: 1280, height: 900 }, outage: true, scrollTo: '#card-decimus [data-roadmap]' },
 ];
 
 /** @param {string} url */
@@ -55,7 +56,10 @@ try {
         : route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(buildRoadmapFixture(new Date())) }),
     );
     await page.goto(BASE + s.path);
-    await page.locator(`[data-roadmap="all"][data-state="${s.outage ? 'unavailable' : 'ready'}"]`).waitFor();
+    // План живёт только в карточках: ждём первую, она есть в разметке и при закрытой карточке.
+    await page
+      .locator(`[data-roadmap="decimus"][data-state="${s.outage ? 'unavailable' : 'ready'}"]`)
+      .waitFor({ state: 'attached' });
     if (s.path.includes('#')) await page.locator('dialog[open] .sheet').waitFor();
     if (s.scrollTo) await page.locator(s.scrollTo).scrollIntoViewIfNeeded();
     await page.emulateMedia({ reducedMotion: 'reduce' }); // без полукадров анимации

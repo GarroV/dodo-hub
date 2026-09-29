@@ -38,16 +38,16 @@ try {
   await page.locator('#tile-decimus').click();
   await page.locator('#card-decimus[open] [data-link]').waitFor({ timeout: 5000 });
   console.log(`✓ карточка открывается, ссылка: ${await page.locator('#card-decimus [data-link]').textContent()}`);
-  await page.keyboard.press('Escape');
-
-  const feed = page.locator('[data-roadmap="all"]');
+  const feed = page.locator('#card-decimus [data-roadmap="decimus"]');
   await page.waitForFunction(
-    () => ['ready', 'unavailable'].includes(document.querySelector('[data-roadmap="all"]')?.getAttribute('data-state') ?? ''),
+    () => ['ready', 'unavailable'].includes(document.querySelector('#card-decimus [data-roadmap="decimus"]')?.getAttribute('data-state') ?? ''),
     null,
     { timeout: 15000 },
   );
   const state = await feed.getAttribute('data-state');
-  console.log(`✓ план: ${state} — «${(await feed.locator('[data-plan-status]').textContent())?.trim()}»`);
+  if (state !== 'ready') throw new Error(`план в карточке Decimus: ${state}`);
+  await page.keyboard.press('Escape');
+  console.log(`✓ план в карточке: ${state} — «${(await feed.locator('[data-plan-status]').textContent())?.trim()}»`);
 
   await page.goto(new globalThis.URL('en/', URL).href);
   const lang = await page.locator('html').getAttribute('lang');

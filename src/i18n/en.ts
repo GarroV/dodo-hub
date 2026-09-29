@@ -30,7 +30,6 @@ export const en: Dict = {
   repoPrivate: 'Private — access via the project owner',
   pending: 'To be confirmed',
   planHeading: 'Roadmap',
-  planLead: 'What we’re doing now, what’s next, and what shipped in the last 30 days. Loaded from Swarm when you open the page.',
   planInProgress: 'In progress',
   planNext: 'Up next',
   planShipped: 'Shipped in 30 days',

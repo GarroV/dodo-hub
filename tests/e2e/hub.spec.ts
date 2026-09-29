@@ -20,7 +20,9 @@ test.describe('с фикстурой плана', () => {
     await expect(tiles).toHaveCount(PROJECTS.length);
     for (const slug of PROJECTS) await expect(page.locator(`#tile-${slug}`)).toBeVisible();
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
-    await expect(page.locator('[data-roadmap="all"]')).toHaveAttribute('data-state', 'ready');
+    await expect(page.locator('[data-roadmap="decimus"]')).toHaveAttribute('data-state', 'ready');
+    // Общей ленты на главной нет: план живёт только в карточке проекта.
+    await expect(page.locator('[data-roadmap="all"]')).toHaveCount(0);
     // Ни ошибок скрипта, ни нарушений CSP.
     expect(problems).toEqual([]);
   });
@@ -102,20 +104,29 @@ test.describe('с фикстурой плана', () => {
     await expect(page.locator('h1')).toContainText(ru.heroTitle);
   });
 
-  test('лента: в работе, дальше, выкачено за 30 дней', async ({ page }) => {
+  test('план в карточке: в работе, дальше, выкачено за 30 дней — только своего проекта', async ({ page }) => {
     await page.goto('./');
-    const feed = page.locator('[data-roadmap="all"]');
-    await expect(feed).toHaveAttribute('data-state', 'ready');
-    await expect(feed.locator('[data-group="inProgress"]')).toContainText(FIXTURE_TITLES.decimusInProgress);
-    await expect(feed.locator('[data-group="inProgress"]')).toContainText(FIXTURE_TITLES.meridiusInProgress);
-    await expect(feed.locator('[data-group="planned"]')).toContainText(FIXTURE_TITLES.maximusPlanned);
-    await expect(feed.locator('[data-group="shipped"]')).toContainText(FIXTURE_TITLES.decimusShipped);
-    await expect(feed).not.toContainText(FIXTURE_TITLES.decimusShippedOld);
-
     await page.locator('#tile-decimus').click();
-    const cardPlan = page.locator('[data-roadmap="decimus"]');
-    await expect(cardPlan).toContainText(FIXTURE_TITLES.decimusPlanned);
-    await expect(cardPlan).not.toContainText(FIXTURE_TITLES.meridiusInProgress);
+    const decimus = page.locator('#card-decimus [data-roadmap="decimus"]');
+    await expect(decimus).toHaveAttribute('data-state', 'ready');
+    await expect(decimus).toBeVisible();
+    await expect(decimus.locator('[data-group="inProgress"]')).toContainText(FIXTURE_TITLES.decimusInProgress);
+    await expect(decimus.locator('[data-group="planned"]')).toContainText(FIXTURE_TITLES.decimusPlanned);
+    await expect(decimus.locator('[data-group="shipped"]')).toContainText(FIXTURE_TITLES.decimusShipped);
+    await expect(decimus).not.toContainText(FIXTURE_TITLES.decimusShippedOld);
+    await expect(decimus).not.toContainText(FIXTURE_TITLES.meridiusInProgress);
+    await page.keyboard.press('Escape');
+
+    await page.locator('#tile-meridius').click();
+    await expect(page.locator('#card-meridius [data-roadmap="meridius"] [data-group="inProgress"]')).toContainText(
+      FIXTURE_TITLES.meridiusInProgress,
+    );
+    await page.keyboard.press('Escape');
+
+    await page.locator('#tile-maximus').click();
+    await expect(page.locator('#card-maximus [data-roadmap="maximus"] [data-group="planned"]')).toContainText(
+      FIXTURE_TITLES.maximusPlanned,
+    );
   });
 
   test('bento без дыр: каждый ряд плиток заполнен до края', async ({ page }) => {
@@ -174,13 +185,11 @@ test.describe('эндпоинт плана недоступен', () => {
       page.on('pageerror', (e) => errors.push(e.message));
       await serveOutage(page, kind);
       await page.goto('./');
-      const feed = page.locator('[data-roadmap="all"]');
-      await expect(feed.locator('[data-plan-status]')).toHaveText(ru.planUnavailable);
-      await expect(feed).toHaveAttribute('data-state', 'unavailable');
       await expect(page.locator('a.tile')).toHaveCount(PROJECTS.length);
 
       await page.locator('#tile-decimus').click();
       await expect(page.locator('[data-roadmap="decimus"] [data-plan-status]')).toHaveText(ru.planUnavailable);
+      await expect(page.locator('[data-roadmap="decimus"]')).toHaveAttribute('data-state', 'unavailable');
       await expect(page.locator('#card-decimus [data-link]')).toBeVisible();
       expect(errors).toEqual([]);
     });
@@ -189,6 +198,7 @@ test.describe('эндпоинт плана недоступен', () => {
   test('английская версия тоже честно говорит о недоступности', async ({ page }) => {
     await serveOutage(page, 'network');
     await page.goto('./en/');
-    await expect(page.locator('[data-roadmap="all"] [data-plan-status]')).toHaveText(en.planUnavailable);
+    await page.locator('#tile-decimus').click();
+    await expect(page.locator('[data-roadmap="decimus"] [data-plan-status]')).toHaveText(en.planUnavailable);
   });
 });
