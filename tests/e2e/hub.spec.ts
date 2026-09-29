@@ -90,7 +90,7 @@ test.describe('с фикстурой плана', () => {
     await expect(page.getByRole('link', { name: ru.langName })).toHaveAttribute('aria-current', 'page');
 
     await page.getByRole('link', { name: en.langName }).click();
-    await expect(page).toHaveURL(/\/dodo-hub\/en\/$/);
+    await expect(page).toHaveURL(/\/imf-vc\/en\/$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.locator('h1')).toContainText(en.heroTitle);
     await expect(page.locator('#tile-decimus')).toContainText(en.status.build);

@@ -6,7 +6,7 @@ import { SWARM_ORIGIN } from './src/lib/swarm.mjs';
 
 export default defineConfig({
   site: 'https://garrov.github.io',
-  base: '/dodo-hub',
+  base: '/imf-vc',
   trailingSlash: 'always',
   i18n: {
     locales: [...LOCALES],

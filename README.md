@@ -1,6 +1,6 @@
 # Проекты Dodo — хаб
 
-**Сайт:** https://garrov.github.io/dodo-hub/ · English: https://garrov.github.io/dodo-hub/en/
+**Сайт:** https://garrov.github.io/imf-vc/ · English: https://garrov.github.io/imf-vc/en/
 
 Одна страница для коллег: какие проекты есть, куда по ним зайти, как получить
 доступ и что сейчас в работе. Нажали на плитку — открылась карточка проекта
@@ -20,8 +20,8 @@
 | Поверхность | Что показывает | Откуда данные |
 |---|---|---|
 | Плитки на главной | Название, тип, одна строка «что это», статус (работает / пилот / в разработке) | `src/content/projects/*.yaml` |
-| Карточка проекта (`#slug`, например [`#decimus`](https://garrov.github.io/dodo-hub/#decimus)) | Ссылка с кнопками «Открыть» и «Скопировать» (и вторая дверь, если есть, — например бот рядом с вебом), шаги входа, для кого, где работает, владелец, демо, репозиторий (ссылкой на GitHub, у закрытого — «Закрытый»), план проекта: сейчас в работе, дальше (ближайшие), выкачено за 30 дней | YAML проекта + Swarm (план — при открытии страницы) |
-| Переключатель RU / EN | Русская версия — `/dodo-hub/`, английская — `/dodo-hub/en/` | Словари `src/i18n/` |
+| Карточка проекта (`#slug`, например [`#decimus`](https://garrov.github.io/imf-vc/#decimus)) | Ссылка с кнопками «Открыть» и «Скопировать» (и вторая дверь, если есть, — например бот рядом с вебом), шаги входа, для кого, где работает, владелец, демо, репозиторий (ссылкой на GitHub, у закрытого — «Закрытый»), план проекта: сейчас в работе, дальше (ближайшие), выкачено за 30 дней | YAML проекта + Swarm (план — при открытии страницы) |
+| Переключатель RU / EN | Русская версия — `/imf-vc/`, английская — `/imf-vc/en/` | Словари `src/i18n/` |
 
 Если факта нет в источниках, в данных стоит `todo`, а сайт пишет
 «Уточняется». Каждый `todo` — открытая задача в Issues с меткой `todo-data`.
@@ -85,7 +85,7 @@ GET https://vbqglndbxkpmreccpqmr.supabase.co/functions/v1/swarm-api/public/roadm
 
 ```bash
 npm ci
-npm run dev             # http://localhost:4321/dodo-hub/, план из фикстуры
+npm run dev             # http://localhost:4321/imf-vc/, план из фикстуры
 npm run verify          # astro check + сборка + e2e на Playwright
 npm run check:negative  # ломает копию проекта и требует, чтобы проверки упали
 npm run screens         # пересъёмка скриншотов для README
@@ -137,4 +137,4 @@ GitHub Actions (`.github/workflows/pages.yml`): на каждый пуш и PR �
 | Договор выдачи плана | `docs/roadmap-contract.md` | 28.09.2026 |
 
 Решения владельца по продукту — [`docs/decisions.md`](docs/decisions.md).
-Беклог — [Issues](https://github.com/GarroV/dodo-hub/issues).
+Беклог — [Issues](https://github.com/GarroV/imf-vc/issues).

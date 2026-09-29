@@ -9,7 +9,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
   use: {
-    baseURL: `http://localhost:${PORT}/dodo-hub/`,
+    baseURL: `http://localhost:${PORT}/imf-vc/`,
     trace: 'retain-on-failure',
   },
   projects: [
@@ -19,7 +19,7 @@ export default defineConfig({
   // Прод-сборка, а не dev: проверяем ровно то, что уезжает на Pages.
   webServer: {
     command: `${process.env.E2E_SKIP_BUILD ? '' : 'npm run build && '}npx astro preview --port ${PORT} --ignore-lock`,
-    url: `http://localhost:${PORT}/dodo-hub/`,
+    url: `http://localhost:${PORT}/imf-vc/`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

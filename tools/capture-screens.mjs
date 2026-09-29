@@ -11,7 +11,7 @@ import { buildRoadmapFixture } from '../tests/fixtures/roadmap.ts';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const PORT = 4351;
-const BASE = `http://localhost:${PORT}/dodo-hub/`;
+const BASE = `http://localhost:${PORT}/imf-vc/`;
 const OUT = resolve(ROOT, 'docs/screens');
 
 /** @type {{file: string, path: string, scheme: 'light' | 'dark', viewport: {width: number, height: number}, fullPage?: boolean, outage?: boolean, scrollTo?: string}[]} */

@@ -61,7 +61,7 @@ const MUTATIONS = [
 ];
 
 function makeCopy() {
-  const dir = mkdtempSync(join(tmpdir(), 'dodo-hub-negative-'));
+  const dir = mkdtempSync(join(tmpdir(), 'imf-vc-negative-'));
   cpSync(ROOT, dir, { recursive: true, filter: (src) => !SKIP.has(src.slice(ROOT.length + 1).split('/')[0]) });
   symlinkSync(join(ROOT, 'node_modules'), join(dir, 'node_modules'));
   return dir;

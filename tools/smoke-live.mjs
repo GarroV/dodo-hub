@@ -1,5 +1,5 @@
 // Смоук живого сайта на Pages, без подмен: настоящая выдача Swarm.
-//   npm run smoke:live              (по умолчанию https://garrov.github.io/dodo-hub/)
+//   npm run smoke:live              (по умолчанию https://garrov.github.io/imf-vc/)
 //   SMOKE_URL=http://… npm run smoke:live
 // Падает, если плиток не столько, сколько проектов в src/content/projects, карточка не открывается, план ни загрузился,
 // ни честно не сказал «недоступен», или в консоли есть ошибки (включая CSP).
@@ -11,7 +11,7 @@ const EXPECTED_TILES = readdirSync(new globalThis.URL('../src/content/projects/'
   f.endsWith('.yaml'),
 ).length;
 
-const URL = process.env.SMOKE_URL ?? 'https://garrov.github.io/dodo-hub/';
+const URL = process.env.SMOKE_URL ?? 'https://garrov.github.io/imf-vc/';
 const browser = await chromium.launch();
 const page = await browser.newPage();
 /** @type {string[]} */
