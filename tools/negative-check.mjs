@@ -1,6 +1,7 @@
 // Проверка проверок: ломает копию проекта и требует, чтобы тесты упали.
 // Если тест на «план временно недоступен» остаётся зелёным без обработки
-// ошибки, он ничего не проверяет. Плюс: сборка обязана падать без поля в YAML.
+// ошибки, он ничего не проверяет. Плюс: сборка обязана падать без поля в YAML,
+// а проверка ссылок — на мёртвом адресе и на несуществующем боте.
 //
 //   npm run check:negative
 //
@@ -58,6 +59,20 @@ const MUTATIONS = [
     replace: '$1',
     run: ['npx', 'astro', 'build'],
   },
+  {
+    name: 'ссылка на бота ведёт на несуществующего бота',
+    file: 'src/content/projects/construction-bot.yaml',
+    find: /t\.me\/dodo_constr_bot/,
+    replace: 't.me/zz_nonexistent_bot_7781234',
+    run: ['node', 'tools/check-links.mjs'],
+  },
+  {
+    name: 'адрес продукта не открывается',
+    file: 'src/content/projects/swarm.yaml',
+    find: /https:\/\/swarm-brain\.pages\.dev$/m,
+    replace: 'https://swarm-brain-nonexistent-9981.pages.dev',
+    run: ['node', 'tools/check-links.mjs'],
+  },
 ];
 
 function makeCopy() {
@@ -91,7 +106,7 @@ MUTATIONS.forEach((m, i) => {
       failures++;
     } else {
       const reason =
-        out.match(/(Error: .*|Expected.*|InvalidContentEntryDataError.*|\d+ failed)/)?.[0] ?? 'код выхода ' + res.status;
+        out.match(/(Мёртвых ссылок.*|Error: .*|Expected.*|InvalidContentEntryDataError.*|\d+ failed)/)?.[0] ?? 'код выхода ' + res.status;
       console.log(`✓ ${m.name}: упала, как должна — ${reason.trim().slice(0, 160)}`);
     }
   } finally {

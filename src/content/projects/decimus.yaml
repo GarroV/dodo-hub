@@ -23,7 +23,7 @@ runs_on:
   ru: Telegram и веб
   en: Telegram and the web
 link:
-  url: https://decimus.95-111-249-216.sslip.io
+  url: https://decimus.vasiliy-garro.workers.dev   # фронт Cloudflare: работает и там, где sslip.io заблокирован (landscape, 29.09.2026)
   label:
     ru: Открыть админку
     en: Open the admin

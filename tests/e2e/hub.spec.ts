@@ -33,10 +33,10 @@ test.describe('с фикстурой плана', () => {
     const card = page.locator('#card-decimus');
     await expect(card).toBeVisible();
     await expect(card.getByRole('heading', { name: 'Decimus', level: 2 })).toBeVisible();
-    await expect(card.locator('[data-link]')).toHaveText('https://decimus.95-111-249-216.sslip.io');
+    await expect(card.locator('[data-link]')).toHaveText('https://decimus.vasiliy-garro.workers.dev');
     await expect(card.getByRole('link', { name: ru.open + ' админку' })).toHaveAttribute(
       'href',
-      'https://decimus.95-111-249-216.sslip.io',
+      'https://decimus.vasiliy-garro.workers.dev',
     );
     await expect(page).toHaveURL(/#decimus$/);
     await page.keyboard.press('Escape');

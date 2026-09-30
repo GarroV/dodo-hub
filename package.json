@@ -15,7 +15,8 @@
     "check:negative": "node tools/negative-check.mjs",
     "screens": "node tools/capture-screens.mjs",
     "verify": "npm run check && npm run build && npm run test:e2e",
-    "smoke:live": "node tools/smoke-live.mjs"
+    "smoke:live": "node tools/smoke-live.mjs",
+    "check:links": "node tools/check-links.mjs"
   },
   "dependencies": {
     "astro": "^7.3.5"
@@ -24,6 +25,7 @@
     "@astrojs/check": "^0.9.10",
     "@playwright/test": "^1.63.0",
     "@types/node": "^24.19.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "yaml": "^2.9.1"
   }
 }
